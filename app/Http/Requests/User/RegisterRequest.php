@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 /**
  * @property string $email
+ * @property string $name
  * @property string $password
  */
-class LoginRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +31,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => "required|email",
-            "password" => "required",
+            'email' => 'required|email|unique:users,email',
+            'name' => 'required',
+            'password' => 'required|confirmed',
         ];
     }
 
@@ -39,11 +42,14 @@ class LoginRequest extends FormRequest
         return [
             'email.required' => 'Merci de rentrer un email',
             'email.email' => 'Merci de rentrer un email valide',
-            'password.required' => 'A message is required',
+            'email.unique' => "L'email rentré est déjà pris",
+            'password.required' => 'Merci de rentrer un mot de passe',
+            'password.confirmed' => 'Les deux mots de passe ne sont pas identiques',
+            'name.required' => 'Merci de rentrer un nom',
         ];
     }
 
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));
     }

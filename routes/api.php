@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix("user")->group(function(){
     Route::post("/login",[UserController::class, "login"])->name("login");
+    Route::post("/register",[UserController::class, "register"])->name("register");
 });
