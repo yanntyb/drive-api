@@ -7,22 +7,23 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\AssociateAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
+use Spatie\Permission\Models\Role;
 
 class RolesRelationManager extends RelationManager
 {
     protected static string $relationship = 'roles';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'id';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+
             ]);
     }
 
@@ -33,17 +34,16 @@ class RolesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
-                //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }    
+    }
+
+
 }

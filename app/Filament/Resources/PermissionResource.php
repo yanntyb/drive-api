@@ -2,20 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\RoleResource\Pages;
-use App\Filament\Resources\RoleResource\RelationManagers;
+use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Resources\PermissionResource\RelationManagers;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Filament\Forms;
 
 
-class RoleResource extends Resource
+class PermissionResource extends Resource
 {
-    protected static ?string $model = Role::class;
+    protected static ?string $model = Permission::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -26,11 +25,6 @@ class RoleResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('permissions')
-                    ->relationship("permissions","name")
-                    ->options(Permission::query()->pluck("name","id"))
-                    ->multiple()
-                    ->required(),
             ]);
     }
 
@@ -54,16 +48,15 @@ class RoleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRoles::route('/'),
-            'create' => Pages\CreateRole::route('/create'),
-            'edit' => Pages\EditRole::route('/{record}/edit'),
+            'index' => Pages\ListPermissions::route('/'),
+            'create' => Pages\CreatePermission::route('/create'),
+            'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }
 }

@@ -3,10 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\RelationManagers\PermissionsRelationManager;
+use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -30,13 +30,16 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
                     ->hiddenOn("edit")
                     ->maxLength(255),
-                Forms\Components\Select::make("roles")->options(Role::all()->pluck("name")),
+                Forms\Components\Select::make('roles')
+                    ->relationship("roles","name")
+                    ->options(Role::query()->pluck("name","id"))
+                    ->multiple()
+                    ->required(),
             ]);
     }
 
@@ -52,7 +55,6 @@ class UserResource extends Resource
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
-                Tables\Columns\TagsColumn::make("roles")->separator(" ")
             ])
             ->filters([
                 //
@@ -68,7 +70,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\RolesRelationManager::class,
+            RolesRelationManager::class,
 
         ];
     }
