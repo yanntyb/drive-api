@@ -18,3 +18,11 @@ Route::prefix("user")->group(function(){
     Route::post("/login",[UserController::class, "login"])->name("login");
     Route::post("/register",[UserController::class, "register"])->name("register");
 });
+
+Route::middleware("auth:sanctum")->group(function(){
+    Route::prefix("user")->group(function(){
+        Route::controller(UserController::class)->group(function(){
+            Route::post("/me", "info");
+        });
+    });
+});

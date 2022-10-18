@@ -7,6 +7,7 @@ use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,8 +25,10 @@ class UserController extends Controller
         $user = User::query()->where(["email" => $request->email])->first();
         if(Hash::check($request->password, $user->password)){
             Auth::login($user);
+            $token = $user->createToken("auth_token")->plainTextToken;
             return response()->json([
-                "user_id" => $user->id,
+                'access_token' => $token,
+                'token_type' => 'Bearer',
             ]);
         }
         return response()->json([
@@ -50,10 +53,21 @@ class UserController extends Controller
 
         $user->save();
         $user->assignRole("user");
+        $token = $user->createToken("auth_token")->plainTextToken;
 
         return response()->json([
-            "password" => ["Le mot de passe n'est pas bon"],
+            'access_token' => $token,
+            'token_type' => 'Bearer',
         ]);
 
+    }
+
+    /**
+     * @param Request $request
+     * @return User
+     */
+    public function info(Request $request): User
+    {
+        return $request->user();
     }
 }
