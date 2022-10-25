@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands\Database;
 
+use App\Models\User;
 use App\Services\ConfigService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class Init extends Command
@@ -53,6 +55,14 @@ class Init extends Command
         $roles->each(function(Role $role){
 
         });
+
+        $support = User::query()->create([
+            "name" => "support",
+            "email" => "drive@support.fr",
+            "password" => Hash::make("support"),
+        ]);
+        $support->save();
+        $support->assignRole(Role::all());
 
         return Command::SUCCESS;
     }
