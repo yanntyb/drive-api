@@ -62,9 +62,9 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasPermissionTo(ConfigService::getConfigSpecificValue("roles","ACCESS_ADMIN_PANEL"));
     }
 
-
     public function storages(): BelongsToMany
     {
         return $this->belongsToMany(Storage::class, "user_has_storage","user_id","storage_id");
     }
+
 }

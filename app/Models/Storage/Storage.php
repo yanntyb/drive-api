@@ -11,12 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property Collection<User> users
+ * @property string $path
  */
 class Storage extends Model
 {
     use HasFactory;
 
     protected $table = ["storages"];
+    protected $fillable = ["path"];
 
     public function users(): BelongsToMany
     {

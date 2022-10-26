@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\DeleteRequest;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
+use App\Services\StorageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +56,8 @@ class UserController extends Controller
         $user->save();
         $user->assignRole("user");
         $token = $user->createToken("auth_token")->plainTextToken;
+        $storage = StorageService::createNewStorage();
+        StorageService::assignStorageToUser($storage, $user);
 
         return response()->json([
             'access_token' => $token,
@@ -69,5 +73,12 @@ class UserController extends Controller
     public function info(Request $request): User
     {
         return $request->user();
+    }
+
+    public function delete(DeleteRequest $request)
+    {
+        $user = User::where("id",$request->user_id)->first();
+        ds($user);
+
     }
 }

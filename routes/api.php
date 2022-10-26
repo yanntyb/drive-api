@@ -25,4 +25,11 @@ Route::middleware("auth:sanctum")->group(function(){
             Route::post("/me", "info");
         });
     });
+
+    //Admin
+    Route::middleware("api-admin")->prefix("admin")->group(function(){
+        Route::controller(UserController::class)->prefix("user")->group(function(){
+            Route::post("/delete","delete");
+        });
+    });
 });
