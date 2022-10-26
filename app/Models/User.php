@@ -3,9 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Storage\Storage;
 use App\Services\ConfigService;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -16,6 +19,7 @@ use App\Traits\HasRoles;
  * @property string $name
  * @property string $email
  * @property string $password
+ * @property Collection<Storage> $storages
  */
 class User extends Authenticatable implements FilamentUser
 {
@@ -56,5 +60,11 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessFilament(): bool
     {
         return $this->hasPermissionTo(ConfigService::getConfigSpecificValue("roles","ACCESS_ADMIN_PANEL"));
+    }
+
+
+    public function storages(): BelongsToMany
+    {
+        return $this->belongsToMany(Storage::class, "user_has_storage","user_id","storage_id");
     }
 }

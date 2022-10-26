@@ -3,7 +3,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "api": "lt --port 8000 --subdomain yanndrive"
+        "api": "lt --port 80 --subdomain yanndrive"
     },
     "devDependencies": {
         "axios": "^0.27",

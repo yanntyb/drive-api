@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'email' => 'required|email|unique:users,email',
-            'name' => 'required',
+            'name' => 'required|min:3',
             'password' => 'required|confirmed',
         ];
     }
@@ -46,6 +46,7 @@ class RegisterRequest extends FormRequest
             'password.required' => 'Merci de rentrer un mot de passe',
             'password.confirmed' => 'Les deux mots de passe ne sont pas identiques',
             'name.required' => 'Merci de rentrer un nom',
+            'name.min' => 'Merci de rentrer minimum 3 caracteres'
         ];
     }
 
