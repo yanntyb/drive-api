@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +16,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        foreach($this->roles as $role){
+            if(Role::query()->where("name", $role)->count()) continue;
+            Role::create(["name" => $role])->save();
+        }
+        $roles = Role::all();
+        $roles->each(function(Role $role){
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        });
+
+        $support = User::query()->create([
+            "name" => "support",
+            "email" => "drive@support.fr",
+            "password" => Hash::make("support"),
+        ]);
+        $support->save();
+        $support->assignRole(Role::all());
     }
 }

@@ -17,11 +17,7 @@ class Init extends Command
 
     public function __construct()
     {
-        $this->roles = [
-            "admin",
-            "user"
-        ];
-        $this->permissions = ConfigService::getConfigValues("roles");
+
         parent::__construct();
     }
 
