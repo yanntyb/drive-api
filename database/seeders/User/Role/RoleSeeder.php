@@ -14,28 +14,27 @@ class RoleSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $defaultRole = [
-            "admin",
-            "user"
+            [
+                "name" => "admin",
+            ],
+            [
+                "name" => "user",
+            ],
         ];
         $defaultPermissions = [
-            "access-api-drive",
-            "access-admin-panel",
+            [
+                "name" => "access-api-drive",
+            ],
+            [
+                "name" => "access-admin-panel",
+            ],
         ];
 
-        foreach($defaultRole as $role){
-            Role::create([
-                "name" => $role,
-            ]);
-        }
-
-        foreach ($defaultPermissions as $permission){
-            Permission::create([
-                "name" => $permission,
-            ]);
-        }
+        collect($defaultRole)->each(fn ($role) => Role::create($role));
+        collect($defaultPermissions)->each(fn ($permission) => Permission::create($permission));
 
         $this->associateDefaultRoleAndPermissions();
     }

@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->make([
+        User::query()->create([
             "name" => "Admin",
             "email" => "support@drive.com",
             "password" => Hash::make("support"),

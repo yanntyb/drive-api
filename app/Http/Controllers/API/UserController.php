@@ -27,6 +27,9 @@ class UserController extends Controller
         $user = User::query()->where(["email" => $request->email])->first();
         if(Hash::check($request->password, $user->password)){
             Auth::login($user);
+            if($user->tokens->count()){
+                ds($user->tokens->first()->plainTextToken)->die();
+            }
             $token = $user->createToken("auth_token")->plainTextToken;
             return response()->json([
                 'access_token' => $token,
@@ -53,11 +56,8 @@ class UserController extends Controller
             "name" => $request->name,
         ]);
 
-        $user->save();
         $user->assignRole("user");
         $token = $user->createToken("auth_token")->plainTextToken;
-        $storage = StorageService::createNewStorage();
-        StorageService::assignStorageToUser($storage, $user);
 
         return response()->json([
             'access_token' => $token,
