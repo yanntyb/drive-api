@@ -21,12 +21,15 @@ class RoleSeeder extends Seeder
                 "name" => "admin",
             ],
             [
-                "name" => "user",
+                "name" => "api-user",
             ],
         ];
         $defaultPermissions = [
             [
                 "name" => "access-api-drive",
+            ],
+            [
+                "name" => "access-api-admin",
             ],
             [
                 "name" => "access-admin-panel",
@@ -42,8 +45,8 @@ class RoleSeeder extends Seeder
     public function associateDefaultRoleAndPermissions(): void
     {
         Role::query()->firstWhere("name","admin")?->givePermissionTo(Permission::all());
-        Role::query()->firstWhere("name","user")?->givePermissionTo(Permission::whereIn("name", [
+        Role::query()->firstWhere("name","api-user")?->givePermissionTo(Permission::whereIn("name", [
             "access-api-drive"
-        ]));
+        ])->get());
     }
 }

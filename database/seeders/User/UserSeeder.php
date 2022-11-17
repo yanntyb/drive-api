@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Seeders\User\Role\RoleSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -20,5 +21,18 @@ class UserSeeder extends Seeder
             RoleSeeder::class,
             AdminSeeder::class,
         ]);
+
+        $usersRoles = Role::whereIn("name", [
+            "api-user",
+        ])->get();
+
+        User::factory()
+            ->count(10)
+            ->create()
+            ->each(function(User $user) use ($usersRoles){
+                $user->assignRole($usersRoles);
+            })
+        ;
+
     }
 }
