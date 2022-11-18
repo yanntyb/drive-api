@@ -29,13 +29,6 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->count(10)
-            ->has(
-                Storage::factory()
-                    ->count(1)
-                    ->state(function (array $attributes, User $user) {
-                        return ["path" => Str::slug($user->name . " " . uniqid("storage", true))];
-                    })
-            )
             ->create()
             ->each(function (User $user) use ($usersRoles) {
                 $user->assignRole($usersRoles);
