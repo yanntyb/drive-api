@@ -11,7 +11,6 @@ trait HasRoles {
     use \Spatie\Permission\Traits\HasRoles {
         assignRole as protected originalAssignRole;
         removeRole as protected originalRemoveRole;
-        syncRoles as protected originalSyncRoles;
     }
 
     /**

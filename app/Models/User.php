@@ -54,12 +54,12 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'roles' => 'array',
     ];
 
     public function canAccessFilament(): bool
     {
-        return $this->hasPermissionTo(ConfigService::getConfigSpecificValue("roles","ACCESS_ADMIN_PANEL"));
+        ds($this->hasRole("admin"));
+        return $this->hasPermissionTo("access-admin-panel");
     }
 
     public function storages(): BelongsToMany

@@ -44,7 +44,7 @@ class RoleAssignedEvent
                 "storage_size" => 1000,
             ]);
             $storage->save();
-            $this->user->storages->add($storage);
+            $this->user->storages()->sync($storage);
         }
     }
 
