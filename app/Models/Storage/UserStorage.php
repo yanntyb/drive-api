@@ -15,7 +15,7 @@ class UserStorage extends Model
 {
     use HasFactory;
 
-    protected $table = ["user_has_storages"];
+    protected $table = "user_has_storages";
 
     public function user(): HasOne
     {

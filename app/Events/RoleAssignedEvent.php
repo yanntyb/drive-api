@@ -39,10 +39,12 @@ class RoleAssignedEvent
     public function assignNewStorage(): void
     {
         if ($this->newRoleNameIsAndDontExist("api-user")) {
-            ds("a");
-            $storage = Storage::create([
-                "path" => Str::slug($this->user . uniqid("-storage",true));
+            $storage = new Storage([
+                "path" => Str::slug($this->user->email . uniqid("-storage",true)),
+                "storage_size" => 1000,
             ]);
+            $storage->save();
+            $this->user->storages->add($storage);
         }
     }
 

@@ -64,7 +64,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function storages(): BelongsToMany
     {
-        return $this->belongsToMany(Storage::class, "user_has_storage","user_id","storage_id");
+        return $this->belongsToMany(Storage::class, "user_has_storages","user_id","storage_id");
     }
 
 }

@@ -17,12 +17,12 @@ class Storage extends Model
 {
     use HasFactory;
 
-    protected $table = ["storages"];
-    protected $fillable = ["path"];
+    protected $table = "storages";
+    protected array $protected = [];
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, "user_has_storage","storage_id","user_id");
+        return $this->belongsToMany(User::class, "user_has_storages","storage_id","user_id");
     }
 
 }
