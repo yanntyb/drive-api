@@ -21,11 +21,9 @@ class StorageService
         $this->disk = StorageFacade::disk("user-drive");
     }
 
-    public function getDirectoryUsedSized(Storage $storage)
+    public function getDirectoryUsedSized(Storage $storage): float
     {
-        $files = $this->getStorageSubFolder($storage->path);
-        ds($files)->die();
-        return;
+        return $this->getStorageSubFolder($storage->path)->getSize();
     }
 
     public function getStorageSubFolder(string $path): Folder

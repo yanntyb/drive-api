@@ -41,7 +41,7 @@ class RoleAssignedEvent
         if ($this->newRoleNameIsAndDontExist("api-user")) {
             $storage = new Storage([
                 "path" => Str::slug($this->user->email . uniqid("-storage",true)),
-                "storage_size" => 1000,
+                "size" => 1000,
             ]);
             $storage->save();
             $this->user->storages()->sync($storage);

@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             ->each(function (User $user) use ($usersRoles) {
                 $user->assignRole($usersRoles);
                 $user->storages->each(static function (Storage $storage) {
-                    StorageService::addFileToStorage($storage, "test.txt", Str::random(5000));
+                    StorageService::addFileToStorage($storage, "test.txt", Str::random(5000 * random_int(1,15)));
                 });
             });
 

@@ -33,7 +33,7 @@ class StorageResource extends Resource
                 Tables\Columns\TextColumn::make('storage_size'),
                 Tables\Columns\TextColumn::make('used_storage')
                     ->getStateUsing(function(Storage $record): string{
-                        return StorageService::getDirectoryUsedSized($record);
+                        return StorageService::getDirectoryUsedSized($record) / 1000 . " ko / " . $record->size . " mo";
                     })
             ])
             ->filters([

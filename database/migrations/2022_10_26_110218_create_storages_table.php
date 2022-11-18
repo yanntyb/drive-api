@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('storages', function (Blueprint $table) {
             $table->id();
             $table->string("path");
-            $table->bigInteger("storage_size");
+            $table->bigInteger("size");
             $table->timestamps();
         });
     }
