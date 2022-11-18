@@ -56,6 +56,12 @@ return [
             'throw' => false,
         ],
 
+        'user-drive' => [
+            'driver' => 'local',
+            'root' => storage_path('app/user-drive'),
+            'url' => env('APP_URL') . '/drive-api',
+        ],
+
     ],
 
     /*
@@ -71,6 +77,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('user-drive') => storage_path('app/user-drive'),
     ],
 
 ];

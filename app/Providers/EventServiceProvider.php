@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Listeners\DeleteStorage;
+use App\Models\Storage\Storage;
 use App\Models\User;
+use App\Observers\StorageObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
@@ -19,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        MigrationsStarted::class => [
+            DeleteStorage::class,
         ],
     ];
 
@@ -45,6 +52,9 @@ class EventServiceProvider extends ServiceProvider
     protected $observers = [
         User::class => [
             UserObserver::class,
+        ],
+        Storage::class => [
+          StorageObserver::class,
         ],
     ];
 }
