@@ -3,11 +3,12 @@
 namespace App\Observers;
 
 use App\Models\Storage\Storage;
+use Illuminate\Support\Facades\Storage as StorageFace;
 
 class StorageObserver
 {
     public function created(Storage $storage)
     {
-        \Illuminate\Support\Facades\Storage::disk('user-drive')->makeDirectory($storage->path);
+        StorageFace::disk('user-drive')->makeDirectory($storage->path);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\User;
 
+use App\Facades\StorageService;
 use App\Models\Storage\Storage;
 use App\Models\User;
 use Database\Seeders\User\Role\RoleSeeder;
@@ -32,6 +33,9 @@ class UserSeeder extends Seeder
             ->create()
             ->each(function (User $user) use ($usersRoles) {
                 $user->assignRole($usersRoles);
+                $user->storages->each(static function (Storage $storage) {
+                    StorageService::addFileToStorage($storage, "test.txt", Str::random(5000));
+                });
             });
 
     }

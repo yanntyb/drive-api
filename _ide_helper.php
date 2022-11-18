@@ -17424,7 +17424,18 @@
      
 }
 
-        namespace Livewire { 
+        namespace App\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class StorageService {
+         
+    }
+     
+}
+
+    namespace Livewire { 
             /**
      * 
      *
@@ -23577,6 +23588,7 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
+            class StorageService extends \App\Facades\StorageService {}
             class Livewire extends \Livewire\Livewire {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      

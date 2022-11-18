@@ -19,6 +19,7 @@ class Storage extends Model
 
     protected $table = "storages";
     protected array $protected = [];
+    protected $guarded = [];
 
     public function users(): BelongsToMany
     {

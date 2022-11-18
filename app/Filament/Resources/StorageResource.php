@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Facades\StorageService;
 use App\Filament\Resources\StorageResource\Pages;
 use App\Models\Storage\Storage;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class StorageResource extends Resource
 {
@@ -27,8 +29,12 @@ class StorageResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make("id"),
                 Tables\Columns\TextColumn::make('storage_size'),
-                Tables\Columns\ViewColumn::make("")
+                Tables\Columns\TextColumn::make('used_storage')
+                    ->getStateUsing(function(Storage $record): string{
+                        return StorageService::getDirectoryUsedSized($record);
+                    })
             ])
             ->filters([
                 //
