@@ -10,6 +10,13 @@ class EditStorage extends EditRecord
 {
     protected static string $resource = StorageResource::class;
 
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            StorageResource\Widgets\StorageUsedChart::class,
+        ];
+    }
+
     protected function getActions(): array
     {
         return [

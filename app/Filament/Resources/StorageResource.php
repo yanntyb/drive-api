@@ -2,14 +2,14 @@
 
 namespace App\Filament\Resources;
 
-use App\Facades\StorageService;
 use App\Filament\Resources\StorageResource\Pages;
+use App\Filament\Resources\StorageResource\Widgets\StorageUsedChart;
 use App\Models\Storage\Storage;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
+use StorageService;
 
 class StorageResource extends Resource
 {
@@ -30,11 +30,16 @@ class StorageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make("id"),
-                Tables\Columns\TextColumn::make('storage_size'),
                 Tables\Columns\TextColumn::make('used_storage')
-                    ->getStateUsing(function(Storage $record): string{
+                    ->getStateUsing(static function(Storage $record): string{
                         return StorageService::getDirectoryUsedSized($record) / 1000 . " ko / " . $record->size . " mo";
-                    })
+                    }),
+                Tables\Columns\TextColumn::make('users_count')
+                    ->getStateUsing(static function(Storage $record): string {
+                        return $record->users->count();
+                    }),
+
+
             ])
             ->filters([
                 //
@@ -50,7 +55,6 @@ class StorageResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
@@ -58,8 +62,15 @@ class StorageResource extends Resource
     {
         return [
             'index' => Pages\ListStorages::route('/'),
+            'edit' => Pages\EditStorage::route('/{record}/edit'),
 //            'create' => Pages\CreateStorage::route('/create'),
-//            'edit' => Pages\EditStorage::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            StorageUsedChart::class,
         ];
     }
 }

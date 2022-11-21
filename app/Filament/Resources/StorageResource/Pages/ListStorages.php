@@ -16,4 +16,5 @@ class ListStorages extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+    
 }

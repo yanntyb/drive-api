@@ -24,8 +24,6 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        ds($user->hasRole("api-user"));
-
     }
 
     /**
