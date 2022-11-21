@@ -35,7 +35,6 @@ class AddFileRequest extends FormRequest
             "files.required" => "Files are required",
             "files.*.required" => "Files are required",
             "files.*.file" => "Files should be files !",
-            "storage_id.exists" => "This storage isn't yours"
         ];
     }
 
