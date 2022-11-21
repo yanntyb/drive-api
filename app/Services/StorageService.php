@@ -10,6 +10,7 @@ use App\Models\Storage\Storage;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Storage as StorageFacade;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use function Symfony\Component\Translation\t;
 
 class StorageService
@@ -70,5 +71,14 @@ class StorageService
     public function getSize(string $path): int
     {
         return $this->disk->size($path);
+    }
+
+    public function guessName(UploadedFile $file): string
+    {
+        $extension = $file->guessExtension();
+        $nameWithClientExtension = $file->getClientOriginalName();
+        $name = explode(".",$nameWithClientExtension);
+        array_pop($name);
+        return implode("",$name) . "." . $extension;
     }
 }

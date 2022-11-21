@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\StorageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,14 @@ Route::middleware("auth:sanctum")->group(function(){
     Route::prefix("user")->group(function(){
         Route::controller(UserController::class)->group(function(){
             Route::post("/me", "info");
+        });
+    });
+
+    Route::prefix("storage")->group(function(){
+        Route::controller(StorageController::class)->group(function(){
+            Route::prefix("file")->group(function(){
+                Route::post("/add","addFile");
+            });
         });
     });
 
