@@ -77,7 +77,10 @@ class UserController extends Controller
     public function delete(DeleteRequest $request)
     {
         $user = User::where("id",$request->user_id)->first();
-        ds($user);
+    }
 
+    public function storageList()
+    {
+        return auth()->user()->storages->toArray();
     }
 }

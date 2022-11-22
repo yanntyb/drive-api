@@ -12,7 +12,6 @@ class StorageController extends Controller
     {
         $storage = Storage::find($request->get("storage_id"));
         foreach($request->file("files") as $file){
-            dd($file->getSize());
             $content = file_get_contents($file->getRealPath());
             $realName = StorageService::guessName($file);
             StorageService::addFileToStorage($storage, $request->get("path") . "/" . $realName,$content);

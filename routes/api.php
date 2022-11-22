@@ -24,6 +24,10 @@ Route::middleware("auth:sanctum")->group(function(){
     Route::prefix("user")->group(function(){
         Route::controller(UserController::class)->group(function(){
             Route::post("/me", "info");
+
+            Route::prefix("/storage")->group(function(){
+                Route::post("/list","storageList");
+            });
         });
     });
 
@@ -31,14 +35,17 @@ Route::middleware("auth:sanctum")->group(function(){
         Route::controller(StorageController::class)->group(function(){
             Route::prefix("file")->group(function(){
                 Route::post("/add","addFile");
+                Route::post("/queue","getQueue");
             });
         });
     });
 
     //Admin
     Route::middleware("api-admin")->prefix("admin")->group(function(){
-        Route::controller(UserController::class)->prefix("user")->group(function(){
-            Route::post("/delete","delete");
+        Route::prefix("user")->group(function(){
+            Route::controller(UserController::class)->group(function(){
+                Route::post("/delete","delete");
+            });
         });
     });
 });
